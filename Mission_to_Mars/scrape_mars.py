@@ -17,98 +17,99 @@ import time
 
 # In[10]:
 
-
-executable_path = {'executable_path': ChromeDriverManager().install()}
-browser = Browser('chrome', **executable_path, headless=False)
-
-
-# In[11]:
+def init_browser():
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
 
 
-#visit site
-url = "https://redplanetscience.com/"
-browser.visit(url)
+    # In[11]:
+def scrape():
+    browser = init_browser()
 
-time.sleep(1)
+    #visit site
+    url = "https://redplanetscience.com/"
+    browser.visit(url)
 
-
-# In[12]:
-
-
-# Scrape page into Soup
-html = browser.html
-soup = bs(html, "html.parser")
-#soup
+    time.sleep(1)
 
 
-# In[13]:
+    # In[12]:
 
 
-# Get the news name
-news_title = soup.find_all('div', class_='content_title')[0].text
-
-# Get the news paragraph
-news_p = soup.find_all('div', class_='article_teaser_body')[0].text
-#print it out to see if it found it
-#news_title
-#news_p
+    # Scrape page into Soup
+    html = browser.html
+    soup = bs(html, "html.parser")
+    #soup
 
 
-# In[14]:
+    # In[13]:
 
 
-#visit site for picture
-featured_image_url = "https://spaceimages-mars.com/"
-browser.visit(featured_image_url)
-    
-time.sleep(1)
-    
-html = browser.html
-soup = bs(html, "html.parser")
-#soup
+    # Get the news name
+    news_title = soup.find_all('div', class_='content_title')[0].text
+
+    # Get the news paragraph
+    news_p = soup.find_all('div', class_='article_teaser_body')[0].text
+    #print it out to see if it found it
+    #news_title
+    #news_p
 
 
-# In[15]:
+    # In[14]:
 
 
-relative_image_path = soup.find_all('img')[1]["src"]
-featured_img_url = featured_image_url + relative_image_path
-    
-featured_img_url
+    #visit site for picture
+    featured_image_url = "https://spaceimages-mars.com/"
+    browser.visit(featured_image_url)
+
+    time.sleep(1)
+
+    html = browser.html
+    soup = bs(html, "html.parser")
+    #soup
 
 
-# In[31]:
+    # In[15]:
 
 
-#mars facts scraping
-mars_facts_url = 'https://galaxyfacts-mars.com/'
-tables = pd.read_html(mars_facts_url)
-#tables
+    relative_image_path = soup.find_all('img')[1]["src"]
+    featured_img_url = featured_image_url + relative_image_path
 
-table_df = pd.DataFrame(tables[1])
-table_df.columns = ["Attributes", "Values"]
-table_df.set_index("Attributes", inplace =True)
-table_df
-#convert to html table
-html_table = table_df.to_html()
-html_table
-
-html_table = html_table.replace('\n', '')
-print(html_table)
+    featured_img_url
 
 
-# In[36]:
+    # In[31]:
 
 
-#mars hemisphere
-mars_url = 'https://marshemispheres.com/'
-browser.visit(mars_url)
-html=browser.html
-soup=bs(html,'html.parser')
+    #mars facts scraping
+    mars_facts_url = 'https://galaxyfacts-mars.com/'
+    tables = pd.read_html(mars_facts_url)
+    #tables
 
-hemisphere_image_urls = []
+    table_df = pd.DataFrame(tables[1])
+    table_df.columns = ["Attributes", "Values"]
+    table_df.set_index("Attributes", inplace =True)
+    table_df
+    #convert to html table
+    html_table = table_df.to_html()
+    html_table
 
-for i in range(4):
+    html_table = html_table.replace('\n', '')
+    print(html_table)
+
+
+    # In[36]:
+
+
+    #mars hemisphere
+    mars_url = 'https://marshemispheres.com/'
+    browser.visit(mars_url)
+    html=browser.html
+    soup=bs(html,'html.parser')
+
+    hemisphere_image_urls = []
+
+    for i in range(4):
     #create empty dictionary
     hemispheres = {}
     browser.find_by_css('a.product-item h3')[i].click()
@@ -119,23 +120,28 @@ for i in range(4):
     hemispheres["title"] = title
     hemisphere_image_urls.append(hemispheres)
     browser.back()
-    
 
 
-# In[37]:
+
+    # In[37]:
 
 
-print(hemisphere_image_urls)
+    print(hemisphere_image_urls)
 
 
-# In[38]:
+    # In[38]:
 
 
-browser.quit()
+    browser.quit()
 
 
-# In[ ]:
-
-
+    # In[ ]:
+    mars_scraped_data = {
+        "news_titles": news_title,
+        "news_p": news_p,
+        "featuredimage_title": featured_image_url,
+        "mars_facts_table": html_table,
+        "hemisphere_images": hemisphere_image_urls
+    }
 
 
