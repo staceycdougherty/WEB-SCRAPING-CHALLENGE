@@ -87,8 +87,8 @@ def scrape():
     #tables
 
     table_df = pd.DataFrame(tables[1])
-    table_df.columns = ["Attributes", "Values"]
-    table_df.set_index("Attributes", inplace =True)
+    table_df.columns = ["Description", "Mars"]
+    table_df.set_index("Description", inplace =True)
     table_df
     #convert to html table
     html_table = table_df.to_html()
@@ -111,15 +111,15 @@ def scrape():
 
     for i in range(4):
     #create empty dictionary
-    hemispheres = {}
-    browser.find_by_css('a.product-item h3')[i].click()
-    element = browser.links.find_by_text('Sample').first
-    img_url = element['href']
-    title = browser.find_by_css("h2.title").text
-    hemispheres["img_url"] = img_url
-    hemispheres["title"] = title
-    hemisphere_image_urls.append(hemispheres)
-    browser.back()
+        hemispheres = {}
+        browser.find_by_css('a.product-item h3')[i].click()
+        element = browser.links.find_by_text('Sample').first
+        img_url = element['href']
+        title = browser.find_by_css("h2.title").text
+        hemispheres["img_url"] = img_url
+        hemispheres["title"] = title
+        hemisphere_image_urls.append(hemispheres)
+        browser.back()
 
 
 
@@ -139,9 +139,11 @@ def scrape():
     mars_scraped_data = {
         "news_titles": news_title,
         "news_p": news_p,
-        "featuredimage_title": featured_image_url,
+        "featured_image_url": featured_image_url,
         "mars_facts_table": html_table,
         "hemisphere_images": hemisphere_image_urls
     }
-
+    
+    
+    return mars_scraped_data
 
