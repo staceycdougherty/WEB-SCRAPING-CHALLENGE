@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[7]:
-
-
 # Dependencies
 from bs4 import BeautifulSoup as bs
 import requests
@@ -15,12 +12,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 
-# In[10]:
-
 def init_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
-
+    return browser
     # In[11]:
 def scrape():
     browser = init_browser()
@@ -29,7 +24,7 @@ def scrape():
     url = "https://redplanetscience.com/"
     browser.visit(url)
 
-    time.sleep(10)
+    time.sleep(1)
 
 
     # In[12]:
@@ -61,7 +56,7 @@ def scrape():
     featured_image_url = "https://spaceimages-mars.com/"
     browser.visit(featured_image_url)
 
-    time.sleep(10)
+    time.sleep(1)
 
     html = browser.html
     soup = bs(html, "html.parser")
@@ -84,7 +79,7 @@ def scrape():
     mars_facts_url = 'https://galaxyfacts-mars.com/'
     tables = pd.read_html(mars_facts_url)
     #tables
-    time.sleep(10)
+    time.sleep(1)
     table_df = pd.DataFrame(tables[1])
     table_df.columns = ["Description", "Mars"]
     table_df.set_index("Description", inplace =True)
@@ -105,7 +100,7 @@ def scrape():
     browser.visit(mars_url)
     html=browser.html
     soup=bs(html,'html.parser')
-    time.sleep(10)
+    time.sleep(1)
     hemisphere_image_urls = []
 
     for i in range(4):
