@@ -27,7 +27,7 @@
     <div class="row">
       <div class="col-md-8">
         <h2>Featured Mars Image</h2>
-        <img class="img-responsive" src="{{ mars.featured_image_url }}" alt="Featured Mars Image">
+        <img class="img-responsive" src="{{ mars.featured_img_url }}" alt="Featured Mars Image">
       </div>
       <div class="col-md-4">
         <h4>Mars Facts</h4>
@@ -38,23 +38,28 @@
     </div>
     
     <!-- Section for Mars Hemispheres -->
-    <div class="row" id="mars-hemispheres">
-      <div class="page-header">
-        <h2 class="text-center">Mars Hemispheres</h2>
+    <div class="container" style="margin-top: 100px;">
+      <h4 style="padding-top: 50px; text-align: center;">Mars Hemispheres</h4>
+      <hr>
+
+      <div class="col-12">
+          <div class="row">
+
+              {% for item in mars.hemespheres %}
+              <div class = "col-6">
+                  <!--card items-->
+                  <div class="card" style="margin: 30px;">
+                      <img src="{{hemespheres.img_url}}" class="card-img-top">
+                      <div class="card-body">
+                          <p class="card-text" style="font-weight: 700;">{{hemespheres.title}}</p>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+
+          </div>
       </div>
 
-      {% for hemisphere in mars.hemisphere_image_urls %}
-      <div class="col-md-6">
-        <div class="thumbnail">
-          <img src="{{ hemispheres.img_url }}" alt="{{ hemispheres.title }}">
-          <div class="caption">
-            <h3>{{ hemispheres.title }} Enhanced</h3>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    
   </div>
 </body>
 

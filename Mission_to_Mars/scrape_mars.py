@@ -53,8 +53,8 @@ def scrape():
 
 
     #visit site for picture
-    featured_image_url = "https://spaceimages-mars.com/"
-    browser.visit(featured_image_url)
+    mars_image_url = "https://spaceimages-mars.com/"
+    browser.visit(mars_image_url)
 
     time.sleep(1)
 
@@ -66,8 +66,8 @@ def scrape():
     # In[15]:
 
 
-    relative_image_path = soup.find_all('img')[1]["src"]
-    featured_img_url = featured_image_url + relative_image_path
+    relative_image_path = soup.find("img", class_="headerimage").get('src') 
+    featured_img_url = mars_image_url + relative_image_path
 
     featured_img_url
 
@@ -133,7 +133,7 @@ def scrape():
     mars_scraped_data = {
         "news_titles": news_title,
         "news_p": news_p,
-        "featured_image_url": featured_image_url,
+        "featured_image_url": featured_img_url,
         "mars_facts_table": html_table,
         "hemisphere_images": hemisphere_image_urls
     }

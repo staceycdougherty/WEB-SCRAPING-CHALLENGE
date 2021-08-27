@@ -21,7 +21,7 @@ def scrape():
     results = scrape_mars.scrape()
     mongo.db.collection.update({}, results, upsert=True)    
     return redirect("/", code=302)
-
+ 
 
 if __name__ == "__main__":
     app.run(debug=True)
